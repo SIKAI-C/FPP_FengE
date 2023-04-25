@@ -15,9 +15,11 @@ def generateInstance(days=6, size=20, cars=3, holding_cost="low"):
     differences = coordinates[:, np.newaxis, :] - coordinates[np.newaxis, :, :]
     distances = np.sqrt(np.sum(differences ** 2, axis=-1))
 
-    demand = np.random.randint(10, 100, (days, size))
-    demand = [[0]+d.tolist() for d in demand]
     inventory_capacity = 300
+    demand = np.random.randint(10, 100, (days, size))
+    I_0 = [inventory_capacity-d for d in demand[0]]
+    I_0 = [0] + I_0
+    demand = [[0]+d.tolist() for d in demand]
     tot_demand = 0
     for d in demand: tot_demand += sum(d)
     car_capacity = int(1.5 * tot_demand / days)
@@ -27,14 +29,15 @@ def generateInstance(days=6, size=20, cars=3, holding_cost="low"):
     hc = [0] + hc.tolist()
 
     res = {}
-    res["days"] = days
-    res["size"] = size
-    res["cars"] = cars
+    res["T"] = days
+    res["n"] = size
+    res["m"] = cars
     res["coordinates"] = coordinates
     res["distances"] = distances
-    res["demand"] = demand
-    res["inventory_capacity"] = inventory_capacity
-    res["holding_cost"] = hc
-    res["car_capacity"] = car_capacity
+    res["r"] = demand
+    res["U"] = inventory_capacity
+    res["hc"] = hc
+    res["Q"] = car_capacity
+    res["I_0"] = I_0
 
     return res
