@@ -41,3 +41,19 @@ def generateInstance(days=6, size=20, cars=3, holding_cost="low"):
     res["I_0"] = I_0
 
     return res
+
+def convertResToParams(res):
+    T = list(range(1, res["T"]+1))
+    N_p = list(range(1, res["n"]+1))
+    N = [0] + N_p
+    E_p = [(i,j) for i in N_p for j in N_p if i != j]
+    E = [(0,i) for i in N_p] + [(i,0) for i in N_p] + E_p
+    K = list(range(1, res["m"]+1))
+    U = res["U"]
+    Q = res["Q"]
+    r = [[0]]+res["r"]
+    I_0 = res["I_0"]
+    hc = res["hc"]
+    c = res["distances"]
+    coor = res["coordinates"]
+    return T, N, N_p, E, E_p, K, U, Q, r, I_0, hc, c
